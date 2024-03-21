@@ -1,8 +1,9 @@
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
-import SampleJSON from '../../formstr/sample.json';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {PropsWithChildren} from 'react';
-import {Card} from '@ant-design/react-native';
+import {Button, Card} from '@ant-design/react-native';
+import { V1Field } from '@formstr/sdk/dist/interfaces';
+import { InputFiller } from '../Inputs/Inputs';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -57,7 +58,9 @@ function Section({children, title}: SectionProps): React.JSX.Element {
   );
 }
 
-export const PrescriptionCreator = () => {
+export const PrescriptionCreator = ({form} : {form: any}) => {
+  if(form === null) return <View><Text>Loading...</Text></View>
+
   return (
     <View
       style={{
@@ -69,16 +72,16 @@ export const PrescriptionCreator = () => {
           width: Dimensions.get('window').width,
         }}
         source={{
-          uri: SampleJSON.settings.titleImageUrl,
+          uri: form.settings.titleImageUrl,
         }}
       />
       <Section title="PeerScribe">
-        From the practice of {SampleJSON.name}
+        From the practice of {form.name}
       </Section>
 
       <Section title="Prescription">
-        <View style={{display: 'flex', flexDirection: 'column'}}>
-          {SampleJSON.fields.map(field => {
+        <View style={{display: 'flex', flexDirection: 'column', width: "100%"}}>
+          {form.fields.map((field: V1Field) => {
             return (
               <Card
                 key={field.questionId}
@@ -88,7 +91,7 @@ export const PrescriptionCreator = () => {
                   padding: 10,
                   backgroundColor: Colors.white,
                   margin: 10,
-                  width: 500,
+                  width: 350,
                   height: 'auto',
                 }}>
                 <Text
@@ -97,15 +100,17 @@ export const PrescriptionCreator = () => {
                   }}>
                   {field.question}
                 </Text>
-                <Text
+                {/* <Text
                   style={{
                     color: Colors.light,
                   }}>
                   {field.answerType}
-                </Text>
+                </Text> */}
+                <InputFiller answerSettings={field.answerSettings} answerType={field.answerType} onChange={() => {}} />
               </Card>
             );
           })}
+          <Button type='primary'> Create RX </Button>
         </View>
       </Section>
     </View>

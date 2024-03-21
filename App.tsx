@@ -24,10 +24,10 @@ function App(): React.JSX.Element {
     console.log('inside useeffect');
     const fetchForm = async () => {
       if (!form) {
-        console.log('fetchiiiing forrmmm!!!');
         let form = await getFormTemplate(
           'eb3df1f89653475f0bcbd22da35f8d2f126db8a68a88a7abedc53535c76c39b4',
         )
+        console.log("Form isss", form)
         setForm(form);
       }
     };
@@ -43,7 +43,7 @@ function App(): React.JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <PrescriptionCreator />
+        <PrescriptionCreator form={form}/>
       </ScrollView>
     </SafeAreaView>
   );
