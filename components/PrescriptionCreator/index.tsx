@@ -1,9 +1,10 @@
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {PropsWithChildren} from 'react';
-import {Button, Card} from '@ant-design/react-native';
+import {PropsWithChildren, useState} from 'react';
+import {Button, Card, Modal} from '@ant-design/react-native';
 import { V1Field } from '@formstr/sdk/dist/interfaces';
 import { InputFiller } from '../Inputs/Inputs';
+import { SendPrescription } from './sendPrescription';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -59,7 +60,8 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 }
 
 export const PrescriptionCreator = ({form} : {form: any}) => {
-  if(form === null) return <View><Text>Loading...</Text></View>
+  if(form === null) return <View style={{backgroundColor: "#ffffff"}}><Text style={{color: "#000000"}}>Loading...</Text></View>
+  const [showSendScreen, setShowSendScreen] = useState(false);
 
   return (
     <View
@@ -110,9 +112,10 @@ export const PrescriptionCreator = ({form} : {form: any}) => {
               </Card>
             );
           })}
-          <Button type='primary'> Create RX </Button>
+          <Button type='primary' onPress={()=>{ setShowSendScreen(true)}}> Create RX </Button>
         </View>
       </Section>
+      <SendPrescription isVisible={showSendScreen} onClose={() => { setShowSendScreen(false)}}/>
     </View>
   );
 };
