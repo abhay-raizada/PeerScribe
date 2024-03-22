@@ -96,7 +96,7 @@ export const PrescriptionCreator = ({form} : {form: any}) => {
                 }}>
                 <Text
                   style={{
-                    color: Colors.green,
+                    color: "#000000",
                   }}>
                   {field.question}
                 </Text>

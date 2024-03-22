@@ -21,11 +21,14 @@ export const InputFiller: React.FC<InputFillerProps> = ({
   const handleInputChange = (
     e: any
   ) => {
-    setInputValue(e.target.value)
+    console.log("E is", e)
+    setInputValue(e.target.value);
+    onChange(e.target.value)
   };
 
-  const handleValueChange = (value: string | null) => {
+  const handleValueChange = (value: string) => {
     if (!value) return;
+    setInputValue(value)
     onChange(value);
   };
 
@@ -41,19 +44,21 @@ export const InputFiller: React.FC<InputFillerProps> = ({
       [AnswerTypes.label]: <></>,
       [AnswerTypes.shortText]: (
         <InputItem
-        onChange={handleInputChange}
-        defaultValue={defaultValue as string}
-        placeholder="enter a value...">
-      </InputItem>
+          onChange={handleValueChange}
+          defaultValue={defaultValue as string}
+          placeholder="enter a value..."
+          placeholderTextColor="#aaaaaa">
+        </InputItem>
       ),
       [AnswerTypes.paragraph]: (
         <TextareaItem
-        rows={10}
-        placeholder="enter a value.."
-        onChange={handleInputChange}
-        autoHeight
-        style={{ paddingVertical: 5 }}
-      />
+          rows={10}
+          placeholder="enter a value.."
+          placeholderTextColor="#aaaaaa"
+          onChange={handleInputChange}
+          autoHeight
+          style={{ paddingVertical: 5 }}
+        />
       ),
       [AnswerTypes.number]: (
         // <InputNumber
@@ -84,7 +89,7 @@ export const InputFiller: React.FC<InputFillerProps> = ({
       ),
       [AnswerTypes.dropdown]: (
             <RNPickerSelect 
-                onValueChange={(value) => { setInputValue(value), console.log("selected value is: ", value)}} 
+                onValueChange={handleValueChange} 
                 items={dropdownItems}
                 placeholder={{}}
                 key="picker" 
