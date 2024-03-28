@@ -12,6 +12,7 @@ import { getFormTemplate } from './formstr/formstr';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { PrescriptionCreator } from './components/PrescriptionCreator';
 import 'react-native-url-polyfill/auto';
+import PolyfillCrypto from 'react-native-webview-crypto'
 
 function App(): React.JSX.Element {
   const backgroundStyle = {
@@ -27,7 +28,6 @@ function App(): React.JSX.Element {
         let form = await getFormTemplate(
           'eb3df1f89653475f0bcbd22da35f8d2f126db8a68a88a7abedc53535c76c39b4',
         )
-        console.log("Form isss", form)
         setForm(form);
       }
     };
@@ -36,6 +36,7 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaView style={backgroundStyle}>
+      <PolyfillCrypto />
       <StatusBar
         barStyle={'light-content'}
         backgroundColor={backgroundStyle.backgroundColor}
