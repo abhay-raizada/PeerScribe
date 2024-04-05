@@ -1,4 +1,4 @@
-import {Alert, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, Appearance, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {PropsWithChildren, useState} from 'react';
 import {Button, Card, Modal} from '@ant-design/react-native';
@@ -11,6 +11,8 @@ import { SimplePool, UnsignedEvent, finalizeEvent, generateSecretKey, getPublicK
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+
+const colorScheme = Appearance.getColorScheme();
 
 const backgroundStyle = {
   backgroundColor: Colors.darker,
@@ -138,7 +140,7 @@ export const PrescriptionCreator = ({form} : {form: any}) => {
       <Section title="Choose a Pharmacy">
         <View style={{ width: width -40}}>
           <Dropdown data={locationData} labelField={'label'} valueField={'label'} onChange={handleLocationChange} 
-            renderItem={renderItem} style={{width: "100%"}}/>
+            renderItem={renderItem} style={{width: "100%"}} placeholderStyle={{color: "white"}} selectedTextStyle={{color: 'white'}}/>
           </View>
       </Section>
 
