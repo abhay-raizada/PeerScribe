@@ -9,6 +9,31 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { SimplePool, UnsignedEvent, finalizeEvent, generateSecretKey, getPublicKey, nip04, nip19 } from 'nostr-tools';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { ImportNsec } from './ImportNsec';
+import { json2xml } from 'xml-js';
+
+function OBJtoXML(obj: any) {
+  var xml = '';
+  for (var prop in obj) {
+      xml += "<" + prop + ">";
+      if(Array.isArray(obj[prop])) {
+          for (var array of obj[prop]) {
+
+              // A real botch fix here
+              xml += "</" + prop + ">";
+              xml += "<" + prop + ">";
+
+              xml += OBJtoXML(new Object(array));
+          }
+      } else if (typeof obj[prop] == "object") {
+          xml += OBJtoXML(new Object(obj[prop]));
+      } else {
+          xml += obj[prop];
+      }
+      xml += "</" + prop + ">";
+  }
+  var xml = xml.replace(/<\/?[0-9]{1,}>/g,'');
+  return xml
+}
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -85,6 +110,7 @@ export const PrescriptionCreator = ({ form }: { form: any }) => {
   const [loggedInNpub, setLoggedInNpub] = useState("")
   const [selectedPharmacyId, setSelectedPharmacyId] = useState("");
   const [selectedPharmacyRelays, setSelectedPharmacyRelays] = useState([]);
+  const [finalJSON, setFinalJson] = useState({})
 
   useEffect(() => {
     async function initialize() {
@@ -114,6 +140,11 @@ export const PrescriptionCreator = ({ form }: { form: any }) => {
     </View>
   }
 
+  const handleFormItemChange = (questionId: string, value: string) => {
+    console.log("Filling", questionId, value)
+    setFinalJson({...finalJSON, [questionId]: value})
+  }
+
   const handleLocationChange = (item: any) => {
     setSelectedPharmacyId(item.npub)
     setSelectedPharmacyRelays(item.relays)
@@ -125,10 +156,18 @@ export const PrescriptionCreator = ({ form }: { form: any }) => {
       Alert.alert("not a valid nsec!")
       return;
     }
+    setLoggedInNpub(nip19.npubEncode(getPublicKey(nip19.decode(nsec).data as Uint8Array)))
     setShowImportNsec(false)
   }
 
-  const sendPrescription = async () => {
+  const handleButtonPress = () => {
+    console.log("Final JSON is", finalJSON)
+    const xml = OBJtoXML({form: finalJSON })
+    console.log("XML is...", xml, typeof xml )
+    sendPrescription(xml);
+  }
+
+  const sendPrescription = async (xml: string) => {
     console.log("Will generate IDs")
     const sk = nip19.decode(await EncryptedStorage.getItem("user_credentials") as `nsec1${string}`).data as Uint8Array
     const pk = getPublicKey(sk)
@@ -137,7 +176,7 @@ export const PrescriptionCreator = ({ form }: { form: any }) => {
     const baseKind4Event: UnsignedEvent = {
       kind: 4,
       tags: [["p", pharmacyId]],
-      content: await nip04.encrypt(sk, pharmacyId, "This is a test message from PeerScribe"),
+      content: await nip04.encrypt(sk, pharmacyId, `This is a test prescription from PeerScribe ${xml}`),
       created_at: Math.floor(Date.now() / 1000),
       pubkey: pk
     }
@@ -202,11 +241,12 @@ export const PrescriptionCreator = ({ form }: { form: any }) => {
                   }}>
                   {field.answerType}
                 </Text> */}
-                <InputFiller answerSettings={field.answerSettings} answerType={field.answerType} onChange={() => { }} />
+                <InputFiller answerSettings={field.answerSettings} answerType={field.answerType} onChange={
+                  (answer) => handleFormItemChange(field.questionId, answer)} />
               </Card>
             );
           })}
-          <Button type='primary' onPress={sendPrescription}> Create RX </Button>
+          <Button type='primary' onPress={handleButtonPress}> Create RX </Button>
         </View>
       </Section>
       <ImportNsec isVisible={showImportNsec} onClose={() => { setShowImportNsec(false)}} onPress={handleImportNsec}/>

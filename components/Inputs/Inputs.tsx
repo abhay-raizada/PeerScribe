@@ -6,7 +6,7 @@ import RNPickerSelect from "react-native-picker-select"
 interface InputFillerProps {
   answerType: AnswerTypes;
   answerSettings: V1AnswerSettings;
-  onChange: (answer: string, message?: string) => void;
+  onChange: (answer: string) => void;
   defaultValue?: string | number | boolean;
 }
 
@@ -22,8 +22,8 @@ export const InputFiller: React.FC<InputFillerProps> = ({
     e: any
   ) => {
     console.log("E is", e)
-    setInputValue(e.target.value);
-    onChange(e.target.value)
+    setInputValue(e);
+    onChange(e)
   };
 
   const handleValueChange = (value: string) => {
