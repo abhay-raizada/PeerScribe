@@ -108,7 +108,7 @@ export const PrescriptionCreator = ({ form }: { form: any }) => {
   if (form === null) return <View style={{ backgroundColor: "#ffffff" }}><Text style={{ color: "#000000" }}>Loading...</Text></View>
   const [showImportNsec, setShowImportNsec] = useState(false);
   const [loggedInNpub, setLoggedInNpub] = useState("")
-  const [selectedPharmacyId, setSelectedPharmacyId] = useState("");
+  const [selectedPharmacyId, setSelectedPharmacyId] = useState(locationData[0].npub);
   const [selectedPharmacyRelays, setSelectedPharmacyRelays] = useState([]);
   const [finalJSON, setFinalJson] = useState({})
 
