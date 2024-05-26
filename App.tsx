@@ -5,14 +5,14 @@
  * @format
  */
 
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet} from 'react-native';
 
-import { getFormTemplate } from './formstr/formstr';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { PrescriptionCreator } from './components/PrescriptionCreator';
+import {getFormTemplate} from './formstr/formstr';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {PrescriptionCreator} from './components/PrescriptionCreator';
 import 'react-native-url-polyfill/auto';
-import PolyfillCrypto from 'react-native-webview-crypto'
+import PolyfillCrypto from 'react-native-webview-crypto';
 
 function App(): React.JSX.Element {
   const backgroundStyle = {
@@ -27,12 +27,11 @@ function App(): React.JSX.Element {
       if (!form) {
         let form = await getFormTemplate(
           'eb3df1f89653475f0bcbd22da35f8d2f126db8a68a88a7abedc53535c76c39b4',
-        )
-        setForm(form);
+        );
       }
     };
     fetchForm();
-  }, [form]);
+  }, [form, setForm]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -44,7 +43,7 @@ function App(): React.JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <PrescriptionCreator form={form}/>
+        <PrescriptionCreator />
       </ScrollView>
     </SafeAreaView>
   );

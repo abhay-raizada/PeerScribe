@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/react-native": "^5.1.0",
     "@formstr/sdk": "^0.0.4-alpha",
+    "@react-native-community/datetimepicker": "^8.0.1",
     "@react-native-community/segmented-control": "^2.2.2",
     "@react-native-community/slider": "^4.5.0",
     "@react-native-picker/picker": "^2.6.1",
@@ -21,6 +22,7 @@
     "react": "18.2.0",
     "react-native": "0.73.4",
     "react-native-crypto": "^2.2.0",
+    "react-native-date-picker": "^5.0.3",
     "react-native-element-dropdown": "^2.10.4",
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-get-random-values": "^1.11.0",
