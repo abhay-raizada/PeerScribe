@@ -204,7 +204,7 @@ export const PrescriptionCreator = () => {
     const finalEvent = finalizeEvent(baseKind4Event, sk);
     const pool = new SimplePool();
     console.log('publishing event');
-    await Promise.any(pool.publish(selectedPharmacyRelays, finalEvent));
+    await Promise.allSettled(pool.publish(selectedPharmacyRelays, finalEvent));
     console.log('Event Published');
     Alert.alert('Prescription Sent to the pharmacy!');
   };

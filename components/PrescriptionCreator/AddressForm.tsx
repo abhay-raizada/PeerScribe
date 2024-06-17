@@ -2,8 +2,6 @@ import {Text, TextInput, View} from 'react-native';
 import {Section} from './Section';
 import {styles, TextTheme} from './styles';
 import {useState} from 'react';
-import DatePicker from 'react-native-date-picker';
-import {Button} from '@ant-design/react-native';
 
 interface AddressForm {
   address_line_1?: string;
@@ -21,7 +19,6 @@ export const AddressForm: React.FC<AddressFormProps> = ({
   nestedFormCallback,
 }) => {
   const [form, setForm] = useState<AddressForm>({});
-  const [openDate, setOpenDate] = useState<boolean>(false);
 
   const handleTextChange = (tag: keyof AddressForm, text: string) => {
     let newForm = {...form};
@@ -34,14 +31,60 @@ export const AddressForm: React.FC<AddressFormProps> = ({
     <Section title="Address">
       <View>
         <View>
-          <Text style={TextTheme}>Name</Text>
+          <Text style={TextTheme}>Address Line 1</Text>
           <TextInput
             style={styles.input}
-            placeholder="Address Line 1"
+            placeholder="Enter street"
             value={form.address_line_1}
             placeholderTextColor="white"
             onChangeText={(text: string) =>
               handleTextChange('address_line_1', text)
+            }
+          />
+        </View>
+        <View>
+          <Text style={TextTheme}>City</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter city"
+            value={form.city}
+            placeholderTextColor="white"
+            onChangeText={(text: string) => handleTextChange('city', text)}
+          />
+        </View>
+        <View>
+          <Text style={TextTheme}>State Provice</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="enter state..."
+            value={form.state_province}
+            placeholderTextColor="white"
+            onChangeText={(text: string) =>
+              handleTextChange('state_province', text)
+            }
+          />
+        </View>
+        <View>
+          <Text style={TextTheme}>Postal Code</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter postal code..."
+            value={form.postal_code}
+            placeholderTextColor="light"
+            onChangeText={(text: string) =>
+              handleTextChange('postal_code', text)
+            }
+          />
+        </View>
+        <View>
+          <Text style={TextTheme}>Country Code</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Country Code..."
+            value={form.country_code}
+            placeholderTextColor="light"
+            onChangeText={(text: string) =>
+              handleTextChange('country_code', text)
             }
           />
         </View>
