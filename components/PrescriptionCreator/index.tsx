@@ -1,46 +1,23 @@
 import {Alert, Appearance, Dimensions, Image, Text, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {PropsWithChildren, useEffect, useState} from 'react';
-import {Button, Card, Modal} from '@ant-design/react-native';
+import {useEffect, useState} from 'react';
+import {Button} from '@ant-design/react-native';
 // import { SendPrescription } from './sendPrescription';
 import {Dropdown} from 'react-native-element-dropdown';
 import {
   SimplePool,
   UnsignedEvent,
   finalizeEvent,
-  generateSecretKey,
   getPublicKey,
   nip04,
   nip19,
 } from 'nostr-tools';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {ImportNsec} from './ImportNsec';
-import {json2xml} from 'xml-js';
 import {Section} from './Section';
 import {PatientForm} from './PatientForm';
 import {AddressForm} from './AddressForm';
-
-/*
-          Patient 
-          - Name
-          - Date Of Birth
-
-          Address 
-          - Address Line 1
-          - City 
-          - StateProvince
-          - Postal Code
-          - Country Code
-
-          Medicine 
-          - Name
-          - Dosage Form
-          - Strength
-          - Quantity
-          - Re-fills
-          - Directions
-          `
-          */
+import {MedicineForm} from './MedicineForm';
 
 function OBJtoXML(obj: any) {
   var xml = '';
@@ -254,6 +231,7 @@ export const PrescriptionCreator = () => {
         <View style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
           <PatientForm nestedFormCallback={nestedFormCallback} />
           <AddressForm nestedFormCallback={nestedFormCallback} />
+          <MedicineForm nestedFormCallback={nestedFormCallback} />
           <Button type="primary" onPress={handleButtonPress}>
             <Text
               style={[
