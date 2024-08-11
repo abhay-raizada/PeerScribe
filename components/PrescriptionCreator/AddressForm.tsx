@@ -70,7 +70,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
             style={styles.input}
             placeholder="Enter postal code..."
             value={form.postal_code}
-            placeholderTextColor="light"
+            placeholderTextColor="white"
             onChangeText={(text: string) =>
               handleTextChange('postal_code', text)
             }
@@ -82,7 +82,7 @@ export const AddressForm: React.FC<AddressFormProps> = ({
             style={styles.input}
             placeholder="Enter Country Code..."
             value={form.country_code}
-            placeholderTextColor="light"
+            placeholderTextColor="white"
             onChangeText={(text: string) =>
               handleTextChange('country_code', text)
             }

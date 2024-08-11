@@ -69,7 +69,7 @@ export const MedicineForm: React.FC<MedicineFormProps> = ({
             style={styles.input}
             placeholder="Enter quantity..."
             value={form.quantity}
-            placeholderTextColor="light"
+            placeholderTextColor="white"
             onChangeText={(text: string) => handleTextChange('quantity', text)}
           />
         </View>
@@ -79,7 +79,7 @@ export const MedicineForm: React.FC<MedicineFormProps> = ({
             style={styles.input}
             placeholder="Refills"
             value={form.refills}
-            placeholderTextColor="light"
+            placeholderTextColor="white"
             onChangeText={(text: string) => handleTextChange('refills', text)}
           />
         </View>
@@ -89,7 +89,7 @@ export const MedicineForm: React.FC<MedicineFormProps> = ({
             style={styles.input}
             placeholder="Enter directions"
             value={form.refills}
-            placeholderTextColor="light"
+            placeholderTextColor="white"
             onChangeText={(text: string) =>
               handleTextChange('directions', text)
             }
