@@ -1,7 +1,7 @@
 import {Text, TextInput, View} from 'react-native';
-import {Section} from './Section';
-import {styles, TextTheme} from './styles';
+import {styles, TextTheme} from '../common/styles';
 import {useState} from 'react';
+import {Section} from '../common/Section';
 
 interface AddressForm {
   address_line_1?: string;

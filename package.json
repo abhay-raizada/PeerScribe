@@ -10,8 +10,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ant-design/react-native": "^5.1.0",
-    "@formstr/sdk": "^0.0.4-alpha",
     "@react-native-community/datetimepicker": "^8.0.1",
     "@react-native-community/segmented-control": "^2.2.2",
     "@react-native-community/slider": "^4.5.0",

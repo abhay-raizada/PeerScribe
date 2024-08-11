@@ -1,9 +1,8 @@
-import {Text, TextInput, View} from 'react-native';
-import {Section} from './Section';
-import {styles, TextTheme} from './styles';
+import {Text, TextInput, View, Button} from 'react-native';
+import {Section} from '../common/Section';
+import {styles, TextTheme} from '../common/styles';
 import {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
-import {Button} from '@ant-design/react-native';
 
 interface PatientForm {
   name?: string;
@@ -46,21 +45,19 @@ export const PatientForm: React.FC<PatientFormProps> = ({
             <View>
               <Text style={TextTheme}>{form.date_of_birth}</Text>
               <Button
-                size="small"
                 onPress={() => {
                   setOpenDate(true);
-                }}>
-                Edit
-              </Button>
+                }}
+                title="Edit"
+              />
             </View>
           ) : (
             <Button
               onPress={() => {
                 setOpenDate(true);
               }}
-              size="small">
-              Pick a date
-            </Button>
+              title="Pick a date"
+            />
           )}
           <DatePicker
             modal

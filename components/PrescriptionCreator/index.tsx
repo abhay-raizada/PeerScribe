@@ -1,8 +1,14 @@
-import {Alert, Appearance, Dimensions, Image, Text, View} from 'react-native';
+import {
+  Alert,
+  Appearance,
+  Dimensions,
+  Image,
+  Text,
+  View,
+  Button,
+} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useEffect, useState} from 'react';
-import {Button} from '@ant-design/react-native';
-// import { SendPrescription } from './sendPrescription';
 import {Dropdown} from 'react-native-element-dropdown';
 import {
   SimplePool,
@@ -14,7 +20,7 @@ import {
 } from 'nostr-tools';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {ImportNsec} from './ImportNsec';
-import {Section} from './Section';
+import {Section} from '../common/Section';
 import {PatientForm} from './PatientForm';
 import {AddressForm} from './AddressForm';
 import {MedicineForm} from './MedicineForm';
@@ -203,12 +209,11 @@ export const PrescriptionCreator = () => {
       <Section title="PeerScribe">
         From the practice of {loggedInNpub}
         <Button
-          size="small"
           onPress={() => {
             setShowImportNsec(true);
-          }}>
-          Edit!
-        </Button>
+          }}
+          title="edit"
+        />
       </Section>
 
       <Section title="Choose a Pharmacy">
@@ -232,17 +237,16 @@ export const PrescriptionCreator = () => {
           <PatientForm nestedFormCallback={nestedFormCallback} />
           <AddressForm nestedFormCallback={nestedFormCallback} />
           <MedicineForm nestedFormCallback={nestedFormCallback} />
-          <Button type="primary" onPress={handleButtonPress}>
-            <Text
+          <Button onPress={handleButtonPress} title="Create Rx" />
+          {/* <Text
               style={[
                 {
                   color: Colors.light,
                 },
               ]}>
               {' '}
-              Create RX{' '}
             </Text>
-          </Button>
+          </Button> */}
         </View>
       </Section>
       <ImportNsec

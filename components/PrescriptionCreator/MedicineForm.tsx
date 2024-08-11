@@ -1,6 +1,6 @@
 import {Text, TextInput, View} from 'react-native';
-import {Section} from './Section';
-import {styles, TextTheme} from './styles';
+import {Section} from '../common/Section';
+import {styles, TextTheme} from '../common/styles';
 import {useState} from 'react';
 
 interface MedicineForm {
