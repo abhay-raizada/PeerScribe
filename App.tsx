@@ -6,7 +6,13 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {PrescriptionCreator} from './components/PrescriptionCreator';
@@ -15,22 +21,15 @@ import PolyfillCrypto from 'react-native-webview-crypto';
 
 function App(): React.JSX.Element {
   const backgroundStyle = {
-    backgroundColor: Colors.darker,
+    backgroundColor: 'black',
+    color: 'white',
   };
 
   const [form, setForm] = useState<{} | null>(null);
 
   useEffect(() => {
     console.log('inside useeffect');
-    const fetchForm = async () => {
-      if (!form) {
-        // let form = await getFormTemplate(
-        //   'eb3df1f89653475f0bcbd22da35f8d2f126db8a68a88a7abedc53535c76c39b4',
-        // );
-      }
-    };
-    fetchForm();
-  }, [form, setForm]);
+  }, []);
 
   return (
     <SafeAreaView style={backgroundStyle}>

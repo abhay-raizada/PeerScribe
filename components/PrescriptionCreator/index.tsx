@@ -1,15 +1,6 @@
-import {
-  Alert,
-  Appearance,
-  Dimensions,
-  Image,
-  Text,
-  View,
-  Button,
-} from 'react-native';
+import {Alert, Dimensions, Image, View, Button} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useEffect, useState} from 'react';
-import {Dropdown} from 'react-native-element-dropdown';
 import {
   SimplePool,
   UnsignedEvent,
@@ -19,11 +10,12 @@ import {
   nip19,
 } from 'nostr-tools';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import {ImportNsec} from './ImportNsec';
+import {ImportNsec} from '../common/ImportNsec';
 import {Section} from '../common/Section';
 import {PatientForm} from './PatientForm';
 import {AddressForm} from './AddressForm';
 import {MedicineForm} from './MedicineForm';
+import {PharmacyPicker, pharmacyData} from '../PharmacyPicker';
 
 function OBJtoXML(obj: any) {
   var xml = '';
@@ -48,52 +40,19 @@ function OBJtoXML(obj: any) {
   return xml;
 }
 
-const colorScheme = Appearance.getColorScheme();
-
-const backgroundStyle = {
-  backgroundColor: Colors.darker,
-};
-
-const width = Dimensions.get('window').width; //full width
-const height = Dimensions.get('window').height;
-
-const locationData = [
-  {
-    label: 'Pharmacy A',
-    value: 'A',
-    npub: 'npub1tea09rtjeuzgk4gjajzry37wuyv7h02d4zw38cpadcrkg5yt0qhqncr7km',
-    relays: ['wss://relay.damus.io'],
-  },
-  {
-    label: 'Pharmacy B',
-    value: 'B',
-    npub: 'npub1tea09rtjeuzgk4gjajzry37wuyv7h02d4zw38cpadcrkg5yt0qhqncr7km',
-    relays: ['wss://relay.primal.net'],
-  },
-  {
-    label: 'Pharmacy C',
-    value: 'C',
-    npub: 'npub1tea09rtjeuzgk4gjajzry37wuyv7h02d4zw38cpadcrkg5yt0qhqncr7km',
-    relays: ['wss://relay.hllo.live'],
-  },
-  {
-    label: 'Pharmacy D',
-    value: 'D',
-    npub: 'npub1tea09rtjeuzgk4gjajzry37wuyv7h02d4zw38cpadcrkg5yt0qhqncr7km',
-    relays: ['wss://nos.lol', 'wss://relay.damus.io'],
-  },
-];
-
-const locationDummyData = [{label: 'Pharmacy A', value: 'A'}];
-
 export const PrescriptionCreator = () => {
   const [showImportNsec, setShowImportNsec] = useState(false);
   const [loggedInNpub, setLoggedInNpub] = useState('');
+  const [finalJSON, setFinalJson] = useState({});
   const [selectedPharmacyId, setSelectedPharmacyId] = useState(
-    locationData[0].npub,
+    pharmacyData[0].npub,
   );
   const [selectedPharmacyRelays, setSelectedPharmacyRelays] = useState([]);
-  const [finalJSON, setFinalJson] = useState({});
+
+  const handleLocationChange = (item: any) => {
+    setSelectedPharmacyId(item.npub);
+    setSelectedPharmacyRelays(item.relays);
+  };
 
   useEffect(() => {
     async function initialize() {
@@ -115,26 +74,6 @@ export const PrescriptionCreator = () => {
     }
     initialize();
   }, []);
-  const renderItem = (item: any) => {
-    return (
-      <View
-        style={{
-          width: width,
-          display: 'flex',
-          flexDirection: 'column',
-          padding: 10,
-          flexWrap: 'wrap',
-        }}>
-        <Text style={{color: 'black', fontSize: 24}}>{item.label}</Text>
-        <View style={{width: width - 100}}>
-          <Text style={{color: 'grey', paddingBottom: 5}}>
-            Npub: {item.npub}
-          </Text>
-          <Text style={{color: 'grey'}}>Relays: {item.relays.join(', ')}</Text>
-        </View>
-      </View>
-    );
-  };
 
   const nestedFormCallback = (
     xmlTag: string,
@@ -142,11 +81,6 @@ export const PrescriptionCreator = () => {
   ) => {
     console.log('Filling', xmlTag, value);
     setFinalJson({...finalJSON, [xmlTag]: value});
-  };
-
-  const handleLocationChange = (item: any) => {
-    setSelectedPharmacyId(item.npub);
-    setSelectedPharmacyRelays(item.relays);
   };
 
   const handleImportNsec = (nsec: string) => {
@@ -174,7 +108,7 @@ export const PrescriptionCreator = () => {
       (await EncryptedStorage.getItem('user_credentials')) as `nsec1${string}`,
     ).data as Uint8Array;
     const pk = getPublicKey(sk);
-    const pharmacyId = nip19.decode(selectedPharmacyId).data as string;
+    const pharmacyId = nip19.decode(selectedPharmacyId!).data as string;
     console.log('Got ids');
     console.log('content is ', xml);
     const baseKind4Event: UnsignedEvent = {
@@ -217,23 +151,9 @@ export const PrescriptionCreator = () => {
         />
       </Section>
 
-      <Section title="Choose a Pharmacy">
-        <View style={{width: width - 40}}>
-          <Dropdown
-            data={locationData}
-            labelField={'label'}
-            valueField={'label'}
-            onChange={handleLocationChange}
-            value={locationData[0]}
-            renderItem={renderItem}
-            style={{width: '100%'}}
-            placeholderStyle={{color: 'white'}}
-            selectedTextStyle={{color: 'white'}}
-          />
-        </View>
-      </Section>
+      <PharmacyPicker handleLocationChange={handleLocationChange} />
 
-      <Section title="Prescription">
+      <Section title="Create Prescription">
         <View style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
           <Section title="Patient" collapsible={true}>
             {' '}
@@ -245,7 +165,9 @@ export const PrescriptionCreator = () => {
           <Section title="Medicine" collapsible={true}>
             <MedicineForm nestedFormCallback={nestedFormCallback} />
           </Section>
-          <Button onPress={handleButtonPress} title="Create Rx" />
+          <View style={{margin: 15}}>
+            <Button onPress={handleButtonPress} title="Create Rx" />
+          </View>
         </View>
       </Section>
       <ImportNsec

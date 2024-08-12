@@ -29,73 +29,67 @@ export const MedicineForm: React.FC<MedicineFormProps> = ({
   };
 
   return (
-    <Section title="Medicine">
+    <View>
       <View>
-        <View>
-          <Text style={TextTheme}>Name of Medicine</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter name of medicine"
-            value={form.name}
-            placeholderTextColor="white"
-            onChangeText={(text: string) => handleTextChange('name', text)}
-          />
-        </View>
-        <View>
-          <Text style={TextTheme}> Form of Dosage</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="what is the dosage form"
-            value={form.dosage_form}
-            placeholderTextColor="white"
-            onChangeText={(text: string) =>
-              handleTextChange('dosage_form', text)
-            }
-          />
-        </View>
-        <View>
-          <Text style={TextTheme}>Strength</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="enter strength..."
-            value={form.strength}
-            placeholderTextColor="white"
-            onChangeText={(text: string) => handleTextChange('strength', text)}
-          />
-        </View>
-        <View>
-          <Text style={TextTheme}>Quantity</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter quantity..."
-            value={form.quantity}
-            placeholderTextColor="white"
-            onChangeText={(text: string) => handleTextChange('quantity', text)}
-          />
-        </View>
-        <View>
-          <Text style={TextTheme}>Refills</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Refills"
-            value={form.refills}
-            placeholderTextColor="white"
-            onChangeText={(text: string) => handleTextChange('refills', text)}
-          />
-        </View>
-        <View>
-          <Text style={TextTheme}>Directions</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter directions"
-            value={form.refills}
-            placeholderTextColor="white"
-            onChangeText={(text: string) =>
-              handleTextChange('directions', text)
-            }
-          />
-        </View>
+        <Text style={TextTheme}>Name of Medicine</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter name of medicine"
+          value={form.name}
+          placeholderTextColor="white"
+          onChangeText={(text: string) => handleTextChange('name', text)}
+        />
       </View>
-    </Section>
+      <View>
+        <Text style={TextTheme}> Form of Dosage</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="what is the dosage form"
+          value={form.dosage_form}
+          placeholderTextColor="white"
+          onChangeText={(text: string) => handleTextChange('dosage_form', text)}
+        />
+      </View>
+      <View>
+        <Text style={TextTheme}>Strength</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="enter strength..."
+          value={form.strength}
+          placeholderTextColor="white"
+          onChangeText={(text: string) => handleTextChange('strength', text)}
+        />
+      </View>
+      <View>
+        <Text style={TextTheme}>Quantity</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter quantity..."
+          value={form.quantity}
+          placeholderTextColor="white"
+          onChangeText={(text: string) => handleTextChange('quantity', text)}
+        />
+      </View>
+      <View>
+        <Text style={TextTheme}>Refills</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Refills"
+          value={form.refills}
+          placeholderTextColor="white"
+          onChangeText={(text: string) => handleTextChange('refills', text)}
+        />
+      </View>
+      <View>
+        <Text style={TextTheme}>Directions</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter directions"
+          value={form.refills}
+          placeholderTextColor="white"
+          onChangeText={(text: string) => handleTextChange('directions', text)}
+        />
+      </View>
+    </View>
   );
 };
