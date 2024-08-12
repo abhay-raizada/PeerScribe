@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Alert, Button, Modal, Text, TextInput, View} from 'react-native';
 import {Section} from '../common/Section';
+import {getData, storeData} from '../../utils/localStorage';
 
 export const AddPharmacy = ({
   isVisible,
@@ -24,6 +25,31 @@ export const AddPharmacy = ({
   const handleName = (value: string) => {
     setName(value);
   };
+
+  async function handleAddClick() {
+    if (!npub || !relay || !name) {
+      Alert.alert(
+        'Missing Inputs',
+        'Please enter name, npub and relay of the Pharmacy',
+      );
+      return;
+    }
+    if (npub.length !== 63 || !npub.startsWith('npub1')) {
+      Alert.alert('Invalid Npub');
+      return;
+    }
+    let pharmacyListString = (await getData('pharmacyList')) || '[]';
+    let pharmacyList = JSON.parse(pharmacyListString) as Array<{
+      label: string;
+      npub: string;
+      relay: string;
+    }>;
+    pharmacyList = [...pharmacyList, {label: name, relay: relay, npub: npub}];
+    await storeData('pharmacyList', JSON.stringify(pharmacyList));
+
+    onAdd(npub, relay, name);
+  }
+
   return (
     <Modal
       visible={isVisible}
@@ -93,16 +119,7 @@ export const AddPharmacy = ({
               <Button title="Cancel" onPress={() => onClose()}></Button>
             </View>
             <View style={{margin: 10}}>
-              <Button
-                title="Add"
-                onPress={() => {
-                  if (!npub || !relay || !name)
-                    Alert.alert(
-                      'Missing Inputs',
-                      'Please enter name, npub and relay of the Pharmacy',
-                    );
-                  onAdd(npub, relay, name);
-                }}></Button>
+              <Button title="Add" onPress={handleAddClick}></Button>
             </View>
           </View>
         </Section>

@@ -47,11 +47,17 @@ export const PrescriptionCreator = () => {
   const [selectedPharmacyId, setSelectedPharmacyId] = useState(
     pharmacyData[0].npub,
   );
-  const [selectedPharmacyRelays, setSelectedPharmacyRelays] = useState([]);
+  const [selectedPharmacyRelays, setSelectedPharmacyRelays] = useState<
+    Array<string>
+  >([pharmacyData[0].relay!]);
 
-  const handleLocationChange = (item: any) => {
+  const handleLocationChange = (item: {
+    name: string;
+    npub: string;
+    relay: string;
+  }) => {
     setSelectedPharmacyId(item.npub);
-    setSelectedPharmacyRelays(item.relays);
+    setSelectedPharmacyRelays([item.relay]);
   };
 
   useEffect(() => {
@@ -119,10 +125,18 @@ export const PrescriptionCreator = () => {
       pubkey: pk,
     };
     const finalEvent = finalizeEvent(baseKind4Event, sk);
+    console.log(
+      'FINAL EVENT IS ',
+      finalEvent,
+      'relays are',
+      selectedPharmacyRelays,
+    );
     const pool = new SimplePool();
     console.log('publishing event');
-    await Promise.allSettled(pool.publish(selectedPharmacyRelays, finalEvent));
-    console.log('Event Published');
+    let messages = await Promise.allSettled(
+      pool.publish(selectedPharmacyRelays, finalEvent),
+    );
+    console.log('Messages from relays', messages);
     Alert.alert('Prescription Sent to the pharmacy!');
   };
 

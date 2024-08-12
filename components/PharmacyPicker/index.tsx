@@ -1,15 +1,16 @@
 import {Dropdown} from 'react-native-element-dropdown';
 import {Section} from '../common/Section';
 import {Button, Dimensions, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AddPharmacy} from './AddPharmacy';
+import {getData} from '../../utils/localStorage';
 
 export const pharmacyData = [
   {
-    label: 'Pharmacy A',
-    value: 'A',
+    label: 'Default pharmacy',
+    value: 'default',
     npub: 'npub1tea09rtjeuzgk4gjajzry37wuyv7h02d4zw38cpadcrkg5yt0qhqncr7km',
-    relays: ['wss://relay.damus.io'],
+    relay: 'wss://relay.damus.io',
   },
   {
     label: ' + Add Pharmacy',
@@ -27,6 +28,20 @@ export const PharmacyPicker: React.FC<PharmacyPickerProps> = ({
   handleLocationChange,
 }) => {
   const [showAddPharmacyModal, setShowAddPharmacyModal] = useState(false);
+  const [pharmacyList, setPharmacyList] = useState(pharmacyData);
+  const [initialized, setInitialized] = useState(false);
+
+  const initialize = async () => {
+    let pharmacyListString = (await getData('pharmacyList')) || '[]';
+    let newPharmacyList = JSON.parse(pharmacyListString);
+    let storePharmacyList = [...newPharmacyList, ...pharmacyList];
+    setPharmacyList(storePharmacyList);
+    setInitialized(true);
+    handleLocationChange(storePharmacyList[0]);
+  };
+  useEffect(() => {
+    if (!initialized) initialize();
+  }, []);
 
   const renderItem = (item: any) => {
     if (item.value === 'custom') {
@@ -56,7 +71,7 @@ export const PharmacyPicker: React.FC<PharmacyPickerProps> = ({
           <Text style={{color: 'grey', paddingBottom: 5}}>
             Npub: {item.npub}
           </Text>
-          <Text style={{color: 'grey'}}>Relays: {item.relays.join(', ')}</Text>
+          <Text style={{color: 'grey'}}>Relay: {item.relay}</Text>
         </View>
       </View>
     );
@@ -67,11 +82,11 @@ export const PharmacyPicker: React.FC<PharmacyPickerProps> = ({
       <Section title="Choose a Pharmacy">
         <View style={{width: width - 40}}>
           <Dropdown
-            data={pharmacyData}
+            data={pharmacyList}
             labelField={'label'}
             valueField={'label'}
             onChange={handleLocationChange}
-            value={pharmacyData[0]}
+            value={pharmacyList[0]}
             renderItem={renderItem}
             style={{width: '100%'}}
             placeholderStyle={{color: 'white'}}
@@ -85,6 +100,7 @@ export const PharmacyPicker: React.FC<PharmacyPickerProps> = ({
           setShowAddPharmacyModal(false);
         }}
         onAdd={() => {
+          initialize();
           setShowAddPharmacyModal(false);
         }}
       />
