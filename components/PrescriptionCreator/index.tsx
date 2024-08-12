@@ -196,6 +196,7 @@ export const PrescriptionCreator = () => {
     <View
       style={{
         backgroundColor: Colors.black,
+        minHeight: Dimensions.get('window').height,
       }}>
       <Image
         style={{
@@ -234,19 +235,17 @@ export const PrescriptionCreator = () => {
 
       <Section title="Prescription">
         <View style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-          <PatientForm nestedFormCallback={nestedFormCallback} />
-          <AddressForm nestedFormCallback={nestedFormCallback} />
-          <MedicineForm nestedFormCallback={nestedFormCallback} />
+          <Section title="Patient" collapsible={true}>
+            {' '}
+            <PatientForm nestedFormCallback={nestedFormCallback} />
+          </Section>
+          <Section title="Address" collapsible={true}>
+            <AddressForm nestedFormCallback={nestedFormCallback} />
+          </Section>
+          <Section title="Medicine" collapsible={true}>
+            <MedicineForm nestedFormCallback={nestedFormCallback} />
+          </Section>
           <Button onPress={handleButtonPress} title="Create Rx" />
-          {/* <Text
-              style={[
-                {
-                  color: Colors.light,
-                },
-              ]}>
-              {' '}
-            </Text>
-          </Button> */}
         </View>
       </Section>
       <ImportNsec

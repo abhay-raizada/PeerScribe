@@ -27,51 +27,49 @@ export const PatientForm: React.FC<PatientFormProps> = ({
   };
 
   return (
-    <Section title="Patient">
+    <View>
       <View>
-        <View>
-          <Text style={TextTheme}>Name</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Patients Name"
-            value={form.name}
-            placeholderTextColor="white"
-            onChangeText={(text: string) => handleTextChange('name', text)}
-          />
-        </View>
-        <View>
-          <Text style={TextTheme}>Date of Birth</Text>
-          {form.date_of_birth ? (
-            <View>
-              <Text style={TextTheme}>{form.date_of_birth}</Text>
-              <Button
-                onPress={() => {
-                  setOpenDate(true);
-                }}
-                title="Edit"
-              />
-            </View>
-          ) : (
+        <Text style={TextTheme}>Name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter Patients Name"
+          value={form.name}
+          placeholderTextColor="white"
+          onChangeText={(text: string) => handleTextChange('name', text)}
+        />
+      </View>
+      <View>
+        <Text style={TextTheme}>Date of Birth</Text>
+        {form.date_of_birth ? (
+          <View>
+            <Text style={TextTheme}>{form.date_of_birth}</Text>
             <Button
               onPress={() => {
                 setOpenDate(true);
               }}
-              title="Pick a date"
+              title="Edit"
             />
-          )}
-          <DatePicker
-            modal
-            mode={'date'}
-            open={openDate}
-            date={new Date(form.date_of_birth || '01-01-1999')}
-            onCancel={() => setOpenDate(false)}
-            onConfirm={(date: Date) => {
-              handleTextChange('date_of_birth', date.toDateString());
-              setOpenDate(false);
+          </View>
+        ) : (
+          <Button
+            onPress={() => {
+              setOpenDate(true);
             }}
+            title="Pick a date"
           />
-        </View>
+        )}
+        <DatePicker
+          modal
+          mode={'date'}
+          open={openDate}
+          date={new Date(form.date_of_birth || '01-01-1999')}
+          onCancel={() => setOpenDate(false)}
+          onConfirm={(date: Date) => {
+            handleTextChange('date_of_birth', date.toDateString());
+            setOpenDate(false);
+          }}
+        />
       </View>
-    </Section>
+    </View>
   );
 };
