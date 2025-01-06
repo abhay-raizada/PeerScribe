@@ -171,13 +171,22 @@ export const PrescriptionCreator = () => {
         <View style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
           <Section title="Patient" collapsible={true}>
             {' '}
-            <PatientForm nestedFormCallback={nestedFormCallback} />
+            <PatientForm
+              initForm={finalJSON}
+              nestedFormCallback={nestedFormCallback}
+            />
           </Section>
           <Section title="Address" collapsible={true}>
-            <AddressForm nestedFormCallback={nestedFormCallback} />
+            <AddressForm
+              initForm={finalJSON}
+              nestedFormCallback={nestedFormCallback}
+            />
           </Section>
           <Section title="Medication" collapsible={true}>
-            <MedicineForm nestedFormCallback={nestedFormCallback} />
+            <MedicineForm
+              initForm={finalJSON}
+              nestedFormCallback={nestedFormCallback}
+            />
           </Section>
           <View style={{margin: 15}}>
             <Button onPress={handleButtonPress} title="Create Rx" />

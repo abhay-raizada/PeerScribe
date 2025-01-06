@@ -12,20 +12,24 @@ interface MedicineForm {
   directions?: string;
 }
 
+const MEDICINE_KEY = 'MedicationPrescribed';
+
 interface MedicineFormProps {
   nestedFormCallback: (tag: string, form: Object) => void;
+  initForm: {[key: string]: any};
 }
 
 export const MedicineForm: React.FC<MedicineFormProps> = ({
   nestedFormCallback,
+  initForm,
 }) => {
-  const [form, setForm] = useState<MedicineForm>({});
+  const [form, setForm] = useState<MedicineForm>(initForm[MEDICINE_KEY] || {});
 
   const handleTextChange = (tag: keyof MedicineForm, text: string) => {
     let newForm = {...form};
     newForm[tag] = text;
     setForm(newForm);
-    nestedFormCallback('MedicationPrescribed', newForm);
+    nestedFormCallback(MEDICINE_KEY, newForm);
   };
 
   return (

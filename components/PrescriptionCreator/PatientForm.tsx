@@ -11,19 +11,25 @@ interface PatientForm {
 
 interface PatientFormProps {
   nestedFormCallback: (tag: string, form: Object) => void;
+  initForm: {[key: string]: any};
 }
+
+const PATIENT_KEY = 'patient';
 
 export const PatientForm: React.FC<PatientFormProps> = ({
   nestedFormCallback,
+  initForm,
 }) => {
-  const [form, setForm] = useState<PatientForm>({});
+  const [form, setForm] = useState<PatientForm>(
+    initForm[PATIENT_KEY]?.['human_patient'] || {},
+  );
   const [openDate, setOpenDate] = useState<boolean>(false);
 
   const handleTextChange = (tag: 'name' | 'date_of_birth', text: string) => {
     let newForm = {...form};
     newForm[tag] = text;
     setForm(newForm);
-    nestedFormCallback('patient', {human_patient: newForm});
+    nestedFormCallback(PATIENT_KEY, {human_patient: newForm});
   };
 
   return (
