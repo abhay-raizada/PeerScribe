@@ -13,18 +13,21 @@ interface AddressForm {
 
 interface AddressFormProps {
   nestedFormCallback: (tag: string, form: Object) => void;
+  initForm: {[key: string]: any};
 }
+const ADDRESS_KEY = 'Address';
 
 export const AddressForm: React.FC<AddressFormProps> = ({
   nestedFormCallback,
+  initForm,
 }) => {
-  const [form, setForm] = useState<AddressForm>({});
+  const [form, setForm] = useState<AddressForm>(initForm[ADDRESS_KEY] || {});
 
   const handleTextChange = (tag: keyof AddressForm, text: string) => {
     let newForm = {...form};
     newForm[tag] = text;
     setForm(newForm);
-    nestedFormCallback('Address', newForm);
+    nestedFormCallback(ADDRESS_KEY, newForm);
   };
 
   return (
