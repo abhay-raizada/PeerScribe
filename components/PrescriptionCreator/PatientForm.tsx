@@ -62,7 +62,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({
           modal
           mode={'date'}
           open={openDate}
-          date={new Date(form.date_of_birth || '01-01-1999')}
+          date={new Date(form.date_of_birth || '1990-01-01')}
           onCancel={() => setOpenDate(false)}
           onConfirm={(date: Date) => {
             handleTextChange('date_of_birth', date.toDateString());

@@ -85,7 +85,7 @@ export const MedicineForm: React.FC<MedicineFormProps> = ({
         <TextInput
           style={styles.input}
           placeholder="Enter directions"
-          value={form.refills}
+          value={form.directions}
           placeholderTextColor="white"
           onChangeText={(text: string) => handleTextChange('directions', text)}
         />

@@ -176,7 +176,7 @@ export const PrescriptionCreator = () => {
           <Section title="Address" collapsible={true}>
             <AddressForm nestedFormCallback={nestedFormCallback} />
           </Section>
-          <Section title="Medicine" collapsible={true}>
+          <Section title="Medication" collapsible={true}>
             <MedicineForm nestedFormCallback={nestedFormCallback} />
           </Section>
           <View style={{margin: 15}}>
